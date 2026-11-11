@@ -5,5 +5,5 @@ def dbconnect():
         host="localhost",
         user="root",
         password="",
-        database="ticket_event"
+        database="ticketing_system"
     )

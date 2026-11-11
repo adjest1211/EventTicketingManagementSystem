@@ -49,6 +49,7 @@ class Booking(BaseModel):
 
 class BookingUpdate(BaseModel):
     bookStatus: str
+    quantity: int = Field(ge=0)
 
 class Event(BaseModel):
     eventName: str
@@ -448,4 +449,217 @@ def deleteEvent(id: int):
 
     return { "message": "Event deletion successful!"}
 
+
+
 #BookingFeatures
+#customerbookingfeatures
+#addBooking
+@app.post("/bookings")
+def addBookings(booking: Booking):
+    db = dbconnect()
+    cursor = db.cursor(dictionary=True)
+
+    db.start_transaction()
+
+    cursor.execute(
+        """
+        SELECT eventID, price, availableTickets, currentStatus, startTime
+        FROM events
+        WHERE eventID = %s
+        FOR UPDATE
+    """,
+    (booking.eventID,)
+    )
+
+    bookEvent = cursor.fetchone()
+
+    if not bookEvent:
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(404, "Event not found")
+
+    cursor.execute("SELECT userID FROM user WHERE userID = %s", (booking.userID,))
+
+    bookUser = cursor.fetchone()
+
+    if not bookUser:
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(404, "User not found!")
+
+    if bookEvent["currentStatus"] != "Upcoming":
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(400, "This event is not available for booking.")
+
+    if bookEvent["startTime"] <= datetime.now():
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(400, "This event has already ended")
+
+    if bookEvent["availableTickets"] < booking.quantity:
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(400,  "Not enough available tickets")
+
+
+    total_amount = Decimal(str(bookEvent["price"])) * booking.quantity
+
+    cursor.execute(
+        """
+        INSERT INTO bookings (userID, eventID, quantity, totalAmount, bookStatus)
+        VALUES (%s, %s, %s, %s, 'Pending')
+    """,
+    (
+        booking.userID,
+        booking.eventID,
+        booking.quantity,
+        total_amount
+    )
+    )
+
+    bookID = cursor.lastrowid
+
+    cursor.execute(
+        """
+        UPDATE events 
+        SET availableTickets = availableTickets - %s
+        WHERE eventID = %s
+    """,
+    (booking.quantity, booking.eventID)
+    )
+
+    db.commit()
+    cursor.close()
+    db.close()
+
+    return{
+        "message": "Booking successful! Please wait for the approval :)",
+        "bookID": bookID,
+        "totalAmount": str(total_amount),
+        "bookStatus": "Pending"
+    }
+
+#viewbooking
+@app.get("/customer/bookings/{id}")
+def viewBooking(id: int):
+    db = dbconnect()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute(
+        """
+        SELECT b.bookID, b.userID, b.eventID, b.quantity, b.totalAmount, b.bookStatus, b.bookedAt, e.eventName, e.venue, e.startTime, e.endTime, e.eventImage
+        FROM bookings b
+        INNER JOIN events e 
+        ON b.eventID = e.eventID
+        WHERE b.userID = %s
+        ORDER BY b.bookedAt DESC        
+    """,
+    (id,)
+    )
+
+    viewBooking = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return viewBooking
+
+#updateBookingqty
+@app.put("/bookings/{id}")
+def updateBooking(id: int, bookUpdate: BookingUpdate):
+    db = dbconnect()
+    cursor = db.cursor(dictionary=True)
+    db.start_transaction()
+
+    cursor.execute(
+        """
+        SELECT bookID, eventID, quantity, bookStatus FROM bookings
+        WHERE bookID = %s
+        FOR UPDATE
+    """,
+    (id,)
+    )
+
+    bookingUpdate = cursor.fetchone()
+
+    if not bookingUpdate:
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(404, "Booking not found")
+
+    if bookingUpdate["bookStatus"] != "Pending":
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(400, "Only pending bookings can be edited")
+
+    cursor.execute(
+        """
+        SELECT availableTickets, price, currentStatus FROM events
+        WHERE eventID = %s
+        FOR UPDATE
+    """,
+    (bookingUpdate["eventID"],)
+    )
+
+    eventUpdate = cursor.fetchone()
+    if not eventUpdate or eventUpdate["currentStatus"] != "Upcoming":
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(400, "Event is not available for update")
+
+    quantityDiff = bookUpdate.quantity - bookingUpdate["quantity"]
+
+    if quantityDiff > eventUpdate["availableTickets"]:
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(400, "Not enough available tickets")
+
+    newAmount = Decimal(str(eventUpdate["price"])) * bookUpdate.quantity
+
+    cursor.execute(
+        """
+        UPDATE bookings
+        SET quantity = %s, totalAmount =%s
+        WHERE bookID = %s    
+    """
+    (bookUpdate.quantity, newAmount, id)
+    )
+
+    cursor.execute(
+        """
+        UPDATE events
+        SET availableTickets = availableTickets - %s
+        WHERE eventID = %s
+    """,
+    (quantityDiff, bookingUpdate["eventID"])
+    )
+
+    db.commit()
+    cursor.close()
+    db.close()
+
+    return{
+        "message": "Booking updated successfully",
+        "quantity": bookUpdate.quantity,
+        "totalAmount": str(newAmount)
+    }
+
+
+#adminbookingfeatures
