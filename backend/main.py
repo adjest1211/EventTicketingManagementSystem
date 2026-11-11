@@ -573,6 +573,30 @@ def viewBooking(id: int):
     db.close()
     return viewBooking
 
+#view1booking
+@app.get("/bookings/{id}")
+def get_booking(id: int):
+    db = dbconnect()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute(
+        """
+        SELECT b.*, u.name, u.username, u.email, e.eventName, e.venue, e.startTime, e.endTime
+        FROM bookings b
+        INNER JOIN  user u 
+        ON b.userID = u.userID
+        INNER JOIN events e
+        ON b.eventID = e.eventID
+        WHERE b.bookID = %s
+        """,
+        (id,)
+    )
+
+    viewBook = cursor.fetchone()
+    cursor.close()
+    db.close()
+    return viewBook
+
 #updateBookingqty
 @app.put("/bookings/{id}")
 def updateBooking(id: int, bookUpdate: BookingUpdate):
@@ -638,7 +662,7 @@ def updateBooking(id: int, bookUpdate: BookingUpdate):
         UPDATE bookings
         SET quantity = %s, totalAmount =%s
         WHERE bookID = %s    
-    """
+    """,
     (bookUpdate.quantity, newAmount, id)
     )
 
@@ -663,3 +687,231 @@ def updateBooking(id: int, bookUpdate: BookingUpdate):
 
 
 #adminbookingfeatures
+#getallbookings
+@app.get("/admin/bookings")
+def getBooking():
+    db = dbconnect()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute(
+        """
+        SELECT b.bookID, b.userID, b.eventID, b.quantity, b.totalAmount, b.bookStatus, b.bookedAt,
+        u.name, u.username, u.email, u.contactNumber,
+        e.eventName, e.venue, e.startTime, e.endTime
+        FROM bookings b
+        INNER JOIN user u
+        ON b.userID = u.userID
+        INNER JOIN events e
+        ON b.eventID = e.eventID
+        ORDER BY b.bookedAt DESC
+    """
+    )
+
+    viewBooking = cursor.fetchall()
+    cursor.close()
+    db.close()
+    return viewBooking
+
+#get1booking
+@app.get("/bookings/{id}")
+def viewBook(id: int):
+    db = dbconnect()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute(
+        """
+        SELECT b.*, u.name, u.username, u.email. e.eventName, e.venue, e.startTime, e.endTime
+        FROM bookings b
+        INNER JOIN user u
+        ON b.userID = u.userID
+        INNER JOIN events e
+        ON b.eventID = e.eventID
+        WHERE b.bookID = %s    
+    """,
+    (id,)
+    )
+
+    viewBook = cursor.fetchone()
+
+    cursor.close()
+    db.close()
+
+    if not viewBook:
+        raise HTTPException(404, "Booking not found")
+
+    return viewBook
+
+#updatebookingstatusAdmin
+@app.put("/admin/bookings/id/status")
+def updateBookingStatus(id: int, bookUpdate: BookingUpdate):
+    db = dbconnect()
+    cursor = db.cursor(dictionary=True)
+
+    allowedStatuses = ["Pending", "Approved", "Cancelled"]
+
+    if bookUpdate.bookStatus not in allowedStatuses:
+        raise HTTPException(400, "Invalid booking status")
+
+    db.start_transaction()
+
+    cursor.execute(
+        """
+        SELECT bookID, eventId, quantity, bookStatus
+        FROM bookings
+        WHERE bookID = %s
+        FOR UPDATE
+    """,
+    (id,)
+    )
+
+    updateBooking = cursor.fetchone()
+
+    if not updateBooking:
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(404, "Booking not found")
+
+    oldStatus = updateBooking["bookStatus"]
+    newStatus = bookUpdate.bookStatus
+
+    if oldStatus == "Cancelled" and newStatus != "Cancelled":
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(400, "Can't active the cancel booking")
+
+    if oldStatus != "Cancelled" and newStatus == "Cancelled":
+        cursor.execute(
+            """
+            UPDATE events SET availableTickets = availableTickets + %s
+            WHERE eventID = %s
+        """,
+        (bookUpdate["quantity"], bookUpdate["eventID"])
+        )
+
+        cursor.execute(
+            """
+            UPDATE bookings
+            SET bookStatus = %s
+            WHERE bookID = %s
+        """,
+        (newStatus, id)
+        )
+
+        db.commit()
+        cursor.close()
+        db.close()
+
+        return {
+            "message": "Booking status updated!",
+            "bookStatus": newStatus
+        }
+
+@app.delete("/admin/bookings/{id}")
+def bookDelete(id: int):
+    db = dbconnect()
+    cursor = db.cursor(dictionary=True)
+    db.start_transaction()
+    cursor.execute(
+        """
+        SELECT eventID, quantity, bookStatus
+        FROM bookings
+        WHERE bookID = %s
+        FOR UPDATE
+    """,
+    (id,)
+    )
+
+    deleteBook = cursor.fetchone()
+
+    if not deleteBook:
+        db.rollback()
+        cursor.close()
+        db.close()
+
+        raise HTTPException(404, "booking not found")
+
+    if deleteBook["bookStatus"] != "Cancelled":
+
+        cursor.execute(
+            """
+            UPDATE events
+            SET availableTickets = availableTickets + %s
+            WHERE eventID = %s
+        """,
+        (deleteBook["quantity"], bookDelete["eventID"])
+        )
+
+        cursor.execute(
+            """
+            DELETE FROM bookings
+            WHERE bookID = %s
+        """,
+        (id,)
+        )
+
+        db.commit()
+        cursor.close()
+
+        return{ "message": "Booking deleted successfully!"}
+
+#admindashboard
+@app.get("/admin/dashboard")
+def adminDashboard():
+    db = dbconnect()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("SELECT COUNT(*) AS totalEvents FROM events")
+
+    totalEvent = cursor.fetchone()
+
+    cursor.execute("SELECT COUNT(*) AS totalUsers FROM user")
+
+    totalUser = cursor.fetchone()
+
+    cursor.execute("SELECT COUNT(*) AS totalBookings FROM bookings")
+
+    totalBookings = cursor.fetchone()
+
+    cursor.execute(
+        """
+        SELECT COUNT(*) AS pendingBookings
+        FROM bookings
+        WHERE bookStatus = 'Pending'
+    """
+    )
+
+    pendingBookings = cursor.fetchone()
+
+    cursor.execute(
+        """
+        SELECT COUNT(*) AS confirmedBookings FROM bookings
+        WHERE bookStatus = 'Confirmed'
+    """
+    )
+
+    confirmedBookings = cursor.fetchone()
+
+    cursor.execute(
+        """
+        SELECT COALESCE(SUM(totalAmount), 0) AS totalRevenue
+        FROM bookings
+        WHERE bookStatus = 'Confirmed'
+    """
+    )
+
+    bookRevenue = cursor.fetchone()
+
+    cursor.close()
+    db.close()
+
+    return {
+        "totalEvents": totalEvent["totalEvents"],
+        "totalUsers": totalUser["totalUsers"],
+        "totalBookings": totalBookings["totalBookings"],
+        "pendingBookings": pendingBookings["pendingBookings"],
+        "confirmedBookings": confirmedBookings["confirmedBookings"],
+        "totalRevenue": str(bookRevenue["totalRevenue"])
+    }
