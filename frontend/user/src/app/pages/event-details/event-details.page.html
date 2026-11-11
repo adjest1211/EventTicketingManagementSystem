@@ -1,0 +1,136 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Event Details</ion-title>
+
+    <ion-button slot="end" fill="clear" routerLink="/events">
+      Back
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="event" class="details-container">
+
+    <div class="details-image">
+      <img
+        *ngIf="event.eventImage"
+        [src]="event.eventImage"
+        [alt]="event.eventName"
+      >
+
+      <div *ngIf="!event.eventImage" class="image-placeholder">
+        <ion-icon name="ticket-outline"></ion-icon>
+      </div>
+
+      <ion-badge color="success">
+        {{ event.currentStatus }}
+      </ion-badge>
+    </div>
+
+    <div class="details-grid">
+
+      <section class="event-information">
+        <span class="eyebrow">EVENT INFORMATION</span>
+
+        <h1>{{ event.eventName }}</h1>
+
+        <p class="description">
+          {{ event.description || 'No event description available.' }}
+        </p>
+
+        <div class="info-item">
+          <ion-icon name="location-outline"></ion-icon>
+          <div>
+            <small>Location</small>
+            <strong>{{ event.venue }}</strong>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <div>
+            <small>Start Date</small>
+            <strong>{{ event.startTime | date:'medium' }}</strong>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <ion-icon name="time-outline"></ion-icon>
+          <div>
+            <small>End Date</small>
+            <strong>{{ event.endTime | date:'medium' }}</strong>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <ion-icon name="ticket-outline"></ion-icon>
+          <div>
+            <small>Available Tickets</small>
+            <strong>{{ event.availableTickets }}</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="booking-card">
+
+        <span class="eyebrow">RESERVE YOUR SEAT</span>
+
+        <p class="price-label">Ticket Price</p>
+
+        <h2>₱{{ event.price | number:'1.2-2' }}</h2>
+
+        <div class="quantity-section">
+          <label>Number of Tickets</label>
+
+          <div class="quantity-control">
+
+            <ion-button
+              fill="clear"
+              [disabled]="quantity <= 1"
+              (click)="changeQuantity(-1)">
+              -
+            </ion-button>
+
+            <strong>{{ quantity }}</strong>
+
+            <ion-button
+              fill="clear"
+              [disabled]="quantity >= event.availableTickets"
+              (click)="changeQuantity(1)">
+              +
+            </ion-button>
+
+          </div>
+        </div>
+
+        <div class="total-row">
+          <span>Total Amount</span>
+          <strong>
+            ₱{{ totalAmount | number:'1.2-2' }}
+          </strong>
+        </div>
+
+        <ion-button
+          expand="block"
+          class="primary-gradient"
+          [disabled]="
+            loading ||
+            event.currentStatus !== 'Upcoming' ||
+            event.availableTickets < 1
+          "
+          (click)="bookTicket()">
+
+          {{ loading ? 'Processing...' : 'Book Tickets' }}
+
+        </ion-button>
+
+        <p class="booking-note">
+          Your booking will initially have Pending status.
+        </p>
+
+      </section>
+
+    </div>
+  </div>
+</ion-content>

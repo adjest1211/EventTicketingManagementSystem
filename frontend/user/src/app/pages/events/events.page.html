@@ -1,0 +1,128 @@
+<ion-header class="main-header">
+  <ion-toolbar>
+    <div class="toolbar-content">
+      <div class="brand">
+        <div class="brand-logo">
+          <ion-icon name="ticket"></ion-icon>
+        </div>
+
+        <span slot="start"> EVENTIFY </span>
+        <ion-button fill="clear" *ngIf="customer" routerLink="/my-bookings" slot="secondary">My Bookings</ion-button>
+        <ion-button fill="clear" routerLink="/events" slot="primary">Discover</ion-button>
+      </div>
+      <ion-searchbar placeholder="Search event name or venue..." (ionInput)="onSearch($event)"
+      class="event-search"></ion-searchbar>
+      <div class="account-menu">
+        <ng-container *ngIf="customer; else guest">
+          <span class="welcome-text">
+            Hi, {{customer.name}}
+          </span>
+          <ion-button fill="clear" (click)="logout()">Logout</ion-button>
+        </ng-container>
+        <ng-template #guest>
+          <ion-button fill="clear" routerLink="/login">Sign in</ion-button>
+        </ng-template>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="hero-label">
+        <ion-icon name="sparkles-outline"></ion-icon>
+        YOUR NEXT EXPERIENCE STARTS HERE
+      </span>
+
+      <h1>
+        Discover Events.<br>
+        <span>Make Memories</span>
+      </h1>
+
+      <ion-button class="hero-button" (click)="selectCategory('Upcoming')">
+        Explore Upcoming Events
+        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+    <div class="hero-decoration">
+      <div class="hero-circle"></div>
+      <div class="floating-ticket">
+        <ion-icon name="ticket-outline"></ion-icon>
+      </div>
+    </div>
+  </section>
+
+  <div class="page-container">
+    <section class="event-heading">
+      <div>
+        <span class="eyebrow">EXPLORE</span>
+        <h2>Find Your Next Event</h2>
+        <p>Discover experiences happening around you.</p>
+      </div>
+    </section>
+
+    
+
+    <div class="category-list">
+      <button *ngFor="let category of categories" [class.active]="selectedCategory === category"
+        (click)="selectCategory(category)">
+        {{ category }}
+      </button>
+    </div>
+
+    <div class="event-grid">
+      <ion-card class="event-card" *ngFor="let event of filteredEvents" (click)="openEvent(event.eventID)">
+        <div class="event-image">
+          <img *ngIf="event.eventImage" [src]="event.eventImage" [alt]="event.eventName">
+
+          <div *ngIf="!event.eventImage" class="image-placeholder">
+            <ion-icon name="ticket-outline"></ion-icon>
+          </div>
+          <ion-badge [color]="event.currentStatus === 'Upcoming' ? 'success' :
+                              event.currentStauts === 'Ongoing' ? 'warning' :
+                              event.currentStatus === 'Cancelled' ? 'danger' : 'medium'">
+            {{ event.currentStatus }}
+          </ion-badge>
+        </div>
+
+        <ion-card-content>
+          <div class="event-date">
+            <ion-icon name="calendar-outline"></ion-icon>
+            {{ event.startTime | date:'mediumDate'}}
+          </div>
+
+          <h3>{{ event.eventName }}</h3>
+
+          <p class="venue">
+            <ion-icon name="location-outline"></ion-icon>
+            {{ event.venue }}
+          </p>
+
+          <div class="event-footer">
+            <div>
+              <span class="price-label">Starting from</span>
+              <strong> ₱{{ event.price}}</strong>
+            </div>
+
+            <ion-button size="small" class="primary-gradient">View Event</ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <div class="empty-state" *ngIf="filteredEvents.length === 0">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <h3>No events found</h3>
+      <p>Try another search or category.</p>
+    </div>
+  </div>
+  <footer>
+    <h3>EVENTIFY</h3>
+    <p>Making every event worth remembering.</p>
+    <small>ⓒ 2026 Eventify. All rights reserved.</small>
+</footer>
+</ion-content>

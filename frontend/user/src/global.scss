@@ -11,7 +11,7 @@
 
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 /* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
@@ -35,3 +35,73 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+:root {
+  --ion-font-family: 'DM Sans', sans-serif;
+
+  --ion-color-primary: #7657ff;
+  --ion-color-primary-rgb: 118, 87, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #684ce0;
+  --ion-color-primary-tint: #846bff;
+
+  --ion-background-color: #f6f7fb;
+  --ion-text-color: #172033;
+
+  --brand-purple: #7657ff;
+  --brand-dark: #15172b;
+  --brand-muted: #7e8498;
+  --brand-light: #f6f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--brand-light);
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+}
+
+ion-content {
+  --background: #f6f7fb;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #172033;
+}
+
+ion-button {
+  text-transform: none;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 25px;
+  font-weight: 800;
+  margin: 25px 0 15px;
+  color: #172033;
+}
+
+.muted {
+  color: #858ba0;
+}
+
+.primary-gradient {
+  --background: linear-gradient(135deg, #7657ff, #a16bff);
+  --border-radius: 13px;
+  --box-shadow: 0 8px 20px rgba(118, 87, 255, .22);
+}

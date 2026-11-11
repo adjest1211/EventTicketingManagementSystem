@@ -1,0 +1,55 @@
+<ion-header class="login-header">
+  <ion-toolbar>
+    <ion-title>
+      <div class="header-brand">
+        <ion-icon name="ticket-outline"></ion-icon>
+        <span>EVENTIFY</span>
+      </div>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button routerLink="/events" fill="clear">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        Back to Events
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="login-background">
+    <div class="login-card">
+      <div class="brand-icon">
+        <ion-icon name="ticket-outline"></ion-icon>
+      </div>
+      <h1>Welcome Back</h1>
+      <p class="subtitle">
+        Discover events. Create memories.
+      </p>
+
+      <div class="form-group">
+        <label>Username</label>
+        <ion-input [(ngModel)]="username" placeholder="Enter your username" fill="outline"></ion-input>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+
+        <ion-input
+        [(ngModel)]="password"
+        type="password"
+        placeholder="Enter your password"
+        fill="outline"></ion-input>
+      </div>
+
+      <ion-button
+      expand="block"
+      class="primary-gradient login-button"
+      (click)="login()">Log in
+    </ion-button>
+
+    <div class="bottom-text">Don't have account?
+      <a routerLink="/register">Create one</a>
+    </div>
+    </div>
+  </div>
+</ion-content>
