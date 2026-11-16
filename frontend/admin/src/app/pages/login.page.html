@@ -1,0 +1,37 @@
+<ion-content>
+  <ion-grid class="ui-layout auth-layout">
+    <ion-grid class="ui-layout auth-form">
+      <ion-text class="ui-h1" role="heading" aria-level="1">Admin log in</ion-text>
+      <ion-text class="ui-p">Use an email address and a sample password to open the organizer preview.</ion-text>
+      <form #login="ngForm" (ngSubmit)="submit(login)">
+        <ion-input
+          name="email"
+          label="Email address"
+          labelPlacement="stacked"
+          fill="outline"
+          autocomplete="email"
+          type="email"
+          required
+          email
+          [(ngModel)]="email"
+        ></ion-input>
+        <ion-input
+          name="password"
+          label="Password"
+          labelPlacement="stacked"
+          fill="outline"
+          autocomplete="current-password"
+          type="password"
+          required
+          [(ngModel)]="password"
+        ></ion-input>
+        <ion-button type="submit" expand="block" [disabled]="login.invalid">Log in</ion-button>
+      </form>
+    </ion-grid>
+    <ion-grid class="ui-layout feature auth-poster">
+      <ion-img src="assets/login-concert.jpg" alt=""></ion-img>
+      <ion-text class="ui-strong">Behind every great night.</ion-text>
+      <ion-text class="ui-span">EVENTIFY</ion-text>
+    </ion-grid>
+  </ion-grid>
+</ion-content>

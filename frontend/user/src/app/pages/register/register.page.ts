@@ -1,16 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
+import { Router, RouterLink } from '@angular/router';
+import { IonGrid, IonText, IonImg, IonButton, IonContent, IonInput } from '@ionic/angular';
+import { Preview } from '../../services/preview';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule],
+  imports: [IonGrid, IonText, IonImg, FormsModule, RouterLink, IonButton, IonContent, IonInput],
 })
-export class RegisterPage implements OnInit {
-  constructor() {}
+export class RegisterPage {
+  private readonly preview = inject(Preview);
+  private readonly router = inject(Router);
+  name = '';
+  email = '';
+  password = '';
 
-  ngOnInit() {}
+  submit() {
+    this.preview.account.set({ name: this.name.trim(), email: this.email.trim() });
+    this.password = '';
+    void this.router.navigate(['/events']);
+  }
 }

@@ -1,3 +1,96 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu menuId="eventify-navigation" contentId="eventify-workspace" type="overlay">
+    <ion-grid class="ui-layout sidebar">
+      <ion-menu-toggle menu="eventify-navigation">
+        <ion-button class="ui-link brand" routerLink="/events" fill="clear">
+          <ion-text class="ui-span brand-mark"><ion-icon [icon]="icons.ticket" aria-hidden="true"></ion-icon></ion-text>
+          EVENTIFY
+        </ion-button>
+      </ion-menu-toggle>
+      <ion-grid class="ui-layout ui-nav" aria-label="Main navigation" role="navigation">
+        <ion-menu-toggle menu="eventify-navigation">
+          <ion-button
+            class="ui-link"
+            routerLink="/events"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            fill="clear"
+          >
+            <ion-text class="menu-option"
+              ><ion-icon [icon]="icons.gridOutline" aria-hidden="true"></ion-icon> Discover events</ion-text
+            >
+          </ion-button>
+        </ion-menu-toggle>
+        <ion-menu-toggle menu="eventify-navigation">
+          <ion-button
+            class="ui-link"
+            routerLink="/my-bookings"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            fill="clear"
+          >
+            <ion-text class="menu-option"
+              ><ion-icon [icon]="icons.ticketOutline" aria-hidden="true"></ion-icon> My bookings</ion-text
+            >
+          </ion-button>
+        </ion-menu-toggle>
+      </ion-grid>
+      <ion-grid class="ui-layout ui-nav account-nav" aria-label="Account" role="navigation">
+        @if (preview.account()) {
+          <ion-text class="ui-span account-email">{{ preview.account()?.email }}</ion-text>
+          <ion-menu-toggle menu="eventify-navigation">
+            <ion-button type="button" fill="clear" expand="block" (click)="preview.account.set(null)">
+              <ion-text class="menu-option"
+                ><ion-icon [icon]="icons.logOutOutline" aria-hidden="true"></ion-icon> Log out</ion-text
+              >
+            </ion-button>
+          </ion-menu-toggle>
+        } @else {
+          <ion-menu-toggle menu="eventify-navigation">
+            <ion-button
+              class="ui-link"
+              routerLink="/login"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
+              fill="clear"
+            >
+              <ion-text class="menu-option"
+                ><ion-icon [icon]="icons.logInOutline" aria-hidden="true"></ion-icon> Log in</ion-text
+              >
+            </ion-button>
+          </ion-menu-toggle>
+          <ion-menu-toggle menu="eventify-navigation">
+            <ion-button
+              class="ui-link"
+              routerLink="/register"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
+              fill="clear"
+            >
+              <ion-text class="menu-option"
+                ><ion-icon [icon]="icons.personAddOutline" aria-hidden="true"></ion-icon> Create account</ion-text
+              >
+            </ion-button>
+          </ion-menu-toggle>
+        }
+      </ion-grid>
+    </ion-grid>
+  </ion-menu>
+
+  <ion-grid id="eventify-workspace" class="ui-layout workspace ion-page">
+    <ion-toolbar class="topbar">
+      <ion-menu-button slot="start" menu="eventify-navigation" aria-label="Menu"></ion-menu-button>
+      <ion-button class="ui-link brand" routerLink="/events" fill="clear">
+        <ion-text class="ui-span brand-mark"><ion-icon [icon]="icons.ticket" aria-hidden="true"></ion-icon></ion-text>
+        EVENTIFY
+      </ion-button>
+      <ion-button slot="end" routerLink="/my-bookings" class="dark-button">
+        <ion-icon slot="start" [icon]="icons.ticketOutline" aria-hidden="true"></ion-icon>
+        My tickets
+      </ion-button>
+    </ion-toolbar>
+    <ion-grid class="ui-layout route-area" role="main">
+      <ion-router-outlet></ion-router-outlet>
+    </ion-grid>
+  </ion-grid>
 </ion-app>

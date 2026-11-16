@@ -1,3 +1,49 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu menuId="admin-menu" contentId="admin-workspace" type="overlay">
+    <ion-grid class="ui-layout drawer">
+      <ion-menu-toggle menu="admin-menu">
+        <ion-button class="ui-link brand" routerLink="/home" fill="clear"
+          ><ion-text class="ui-span"><ion-icon [icon]="icons.ticket" aria-hidden="true"></ion-icon></ion-text>
+          EVENTIFY</ion-button
+        >
+      </ion-menu-toggle>
+      <ion-grid class="ui-layout ui-nav" aria-label="Admin navigation" role="navigation">
+        @for (link of links; track link.path) {
+          <ion-menu-toggle menu="admin-menu">
+            <ion-button
+              class="ui-link"
+              [routerLink]="link.path"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              ariaCurrentWhenActive="page"
+              fill="clear"
+            >
+              <ion-text class="menu-option"
+                ><ion-icon [icon]="link.icon" aria-hidden="true"></ion-icon> {{ link.label }}</ion-text
+              >
+            </ion-button>
+          </ion-menu-toggle>
+        }
+      </ion-grid>
+    </ion-grid>
+  </ion-menu>
+  <ion-grid id="admin-workspace" class="ui-layout ion-page workspace">
+    <ion-toolbar>
+      <ion-menu-button slot="start" menu="admin-menu" aria-label="Menu"></ion-menu-button>
+      <ion-button class="ui-link brand" routerLink="/home" fill="clear"
+        ><ion-text class="ui-span"><ion-icon [icon]="icons.ticket" aria-hidden="true"></ion-icon></ion-text>
+        EVENTIFY</ion-button
+      >
+      @if (workspace.organizer()) {
+        <ion-button slot="end" class="secondary" routerLink="/login" (click)="workspace.organizer.set('')">
+          <ion-icon slot="start" [icon]="icons.logOutOutline" aria-hidden="true"></ion-icon>Log out
+        </ion-button>
+      } @else {
+        <ion-button slot="end" class="secondary" routerLink="/login">
+          <ion-icon slot="start" [icon]="icons.logInOutline" aria-hidden="true"></ion-icon>Admin log in
+        </ion-button>
+      }
+    </ion-toolbar>
+    <ion-grid class="ui-layout route-area" role="main"><ion-router-outlet></ion-router-outlet></ion-grid>
+  </ion-grid>
 </ion-app>

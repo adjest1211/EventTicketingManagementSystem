@@ -1,0 +1,42 @@
+<ion-content>
+  <ion-grid class="ui-layout page">
+    @if (booking(); as ticket) { @if (event(); as item) {
+    <ion-grid class="ui-layout confirmation-banner">
+      <ion-text class="ui-h1" role="heading" aria-level="1">Booking confirmed</ion-text>
+      <ion-text class="ui-p">Your tickets are saved in My bookings.</ion-text>
+    </ion-grid>
+    <ion-grid class="ui-layout surface ticket">
+      <ion-grid class="ui-layout ticket-stub"
+        ><ion-text class="ui-strong">EVENTIFY</ion-text><ion-text class="ui-span">General admission</ion-text></ion-grid
+      >
+      <ion-grid class="ui-layout panel">
+        <ion-text class="ui-h2" role="heading" aria-level="2">{{ item.name }}</ion-text>
+        <ion-text class="ui-p"
+          >{{ item.date | date:'EEE, MMM d · h:mm a':'+0800' }}<ion-text class="ui-break" aria-hidden="true"></ion-text
+          >{{ item.venue }}</ion-text
+        >
+        <ion-grid class="ui-layout ticket-facts" role="list">
+          <ion-grid class="ui-layout">
+            <ion-text class="ui-dt" role="term">Tickets</ion-text>
+            <ion-text class="ui-dd" role="definition">{{ ticket.quantity }}</ion-text>
+          </ion-grid>
+          <ion-grid class="ui-layout">
+            <ion-text class="ui-dt" role="term">Total</ion-text>
+            <ion-text class="ui-dd" role="definition">₱{{ ticket.quantity * item.price }}</ion-text>
+          </ion-grid>
+          <ion-grid class="ui-layout">
+            <ion-text class="ui-dt" role="term">Attendee</ion-text>
+            <ion-text class="ui-dd" role="definition">{{ ticket.name }}</ion-text>
+          </ion-grid>
+        </ion-grid>
+      </ion-grid>
+    </ion-grid>
+    } } @else {
+    <ion-text class="ui-h1" role="heading" aria-level="1">Booking unavailable</ion-text>
+    }
+    <ion-grid class="ui-layout center-actions">
+      <ion-button routerLink="/my-bookings">View my bookings</ion-button>
+      <ion-button class="dark-button" routerLink="/events">Discover events</ion-button>
+    </ion-grid>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,160 @@
+<ion-content>
+  <ion-grid class="ui-layout page">
+    <ion-button class="ui-link back" [routerLink]="existing() ? ['/events', existing()?.id] : ['/events']" fill="clear"
+      >Back to {{ existing() ? 'event' : 'events' }}</ion-button
+    >
+    @if (!id() || existing()) {
+    <ion-grid class="ui-layout page-heading">
+      <ion-grid class="ui-layout">
+        <ion-text class="ui-h1" role="heading" aria-level="1">{{ existing() ? 'Edit event' : 'Add event' }}</ion-text>
+        <ion-text class="ui-p">
+          {{ existing() ? 'Update this event’s listing and ticket capacity.' : 'Enter the details for a new event
+          listing.' }}
+        </ion-text>
+      </ion-grid>
+    </ion-grid>
+    <form #editor="ngForm" (ngSubmit)="submit(editor)">
+      <ion-grid class="ui-layout editor-grid">
+        <ion-grid class="ui-layout panel fields">
+          <ion-text class="ui-h2 full" role="heading" aria-level="2">Event details</ion-text>
+          <ion-input
+            class="full"
+            name="name"
+            label="Event name"
+            labelPlacement="stacked"
+            fill="outline"
+            required
+            [(ngModel)]="draft.name"
+          ></ion-input>
+          <ion-input
+            name="category"
+            label="Category"
+            labelPlacement="stacked"
+            fill="outline"
+            required
+            [(ngModel)]="draft.category"
+          ></ion-input>
+          <ion-input
+            name="venue"
+            label="Venue"
+            labelPlacement="stacked"
+            fill="outline"
+            required
+            [(ngModel)]="draft.venue"
+          ></ion-input>
+          <ion-input
+            name="date"
+            label="Date"
+            labelPlacement="stacked"
+            fill="outline"
+            type="date"
+            required
+            [(ngModel)]="draft.date"
+          ></ion-input>
+          <ion-input
+            name="time"
+            label="Time"
+            labelPlacement="stacked"
+            fill="outline"
+            type="time"
+            required
+            [(ngModel)]="draft.time"
+          ></ion-input>
+          <ion-input
+            name="price"
+            label="Ticket price (₱)"
+            labelPlacement="stacked"
+            fill="outline"
+            type="number"
+            min="0"
+            step="0.01"
+            required
+            [(ngModel)]="draft.price"
+          ></ion-input>
+          <ion-input
+            name="capacity"
+            label="Ticket capacity"
+            labelPlacement="stacked"
+            fill="outline"
+            type="number"
+            [min]="minimum()"
+            step="1"
+            required
+            [(ngModel)]="draft.capacity"
+          ></ion-input>
+          <ion-textarea
+            class="full"
+            name="description"
+            label="Description"
+            labelPlacement="stacked"
+            fill="outline"
+            rows="4"
+            required
+            [(ngModel)]="draft.description"
+          ></ion-textarea>
+          <ion-grid class="ui-layout full">
+            <ion-text class="ui-h3" role="heading" aria-level="3"
+              >Event picture <ion-text class="ui-small">(optional)</ion-text></ion-text
+            >
+            <ion-text class="ui-p helper">JPG, PNG, or WebP up to 1 MB.</ion-text>
+            <input
+              #photoPicker
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              hidden
+              (change)="selectPhoto(photoPicker)"
+            />
+            <ion-grid class="ui-layout row-actions">
+              <ion-button
+                type="button"
+                class="secondary"
+                [disabled]="readingPhoto() || saving"
+                (click)="photoPicker.click()"
+              >
+                {{ draft.photo ? 'Replace picture' : 'Choose picture' }}
+              </ion-button>
+              @if (draft.photo) {
+              <ion-button type="button" fill="clear" [disabled]="readingPhoto() || saving" (click)="removePhoto()"
+                >Remove picture</ion-button
+              >
+              }
+            </ion-grid>
+            @if (readingPhoto()) {
+            <ion-text class="ui-p" role="status">Loading picture…</ion-text>
+            }
+            <ion-text class="ui-p feedback" role="alert">{{ photoError() }}</ion-text>
+          </ion-grid>
+        </ion-grid>
+        <ion-grid class="ui-layout">
+          <ion-grid class="ui-layout panel feature event-preview">
+            @if (draft.photo; as photo) { <ion-img [src]="photo" alt=""></ion-img> }
+            <ion-text class="ui-p eyebrow">Event preview</ion-text>
+            <ion-text class="ui-h2" role="heading" aria-level="2">{{ draft.name || 'Event name' }}</ion-text>
+            @if (draft.date) {
+            <ion-text class="ui-p">{{ draft.date | date:'MMM d, y' }} · {{ draft.time }}</ion-text>
+            }
+            <ion-text class="ui-p">{{ draft.venue }}</ion-text>
+            <ion-text class="ui-p">{{ draft.price | currency:'PHP':'₱':'1.0-2' }}</ion-text>
+          </ion-grid>
+          @if (existing()) {
+          <ion-text class="ui-p notice">
+            Existing bookings keep their original ticket price. Capacity must cover confirmed tickets.
+          </ion-text>
+          }
+        </ion-grid>
+      </ion-grid>
+      <ion-text class="ui-p feedback" role="alert">{{ message }}</ion-text>
+      <ion-grid class="ui-layout row-actions">
+        <ion-button type="submit" [disabled]="editor.invalid || saving || readingPhoto()"
+          >{{ existing() ? 'Save changes' : 'Publish event' }}</ion-button
+        >
+        <ion-button class="secondary" [routerLink]="existing() ? ['/events', existing()?.id] : ['/events']"
+          >Cancel</ion-button
+        >
+      </ion-grid>
+    </form>
+    } @else {
+    <ion-text class="ui-h1" role="heading" aria-level="1">Event not found</ion-text>
+    }
+  </ion-grid>
+</ion-content>

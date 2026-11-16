@@ -1,27 +1,109 @@
-#container {
-  text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+.dashboard {
+  --ion-grid-column-padding: 7px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.dashboard-heading {
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
+.dashboard-heading ion-text {
+  display: block;
+}
 
-  color: #8c8c8c;
+.dashboard-title {
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 780;
+  letter-spacing: -0.035em;
+}
 
+ion-card {
+  height: 100%;
   margin: 0;
+  box-shadow: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
 }
 
-#container a {
-  text-decoration: none;
+ion-card-title {
+  font-size: 1.24rem;
+  font-weight: 730;
+}
+
+.dashboard-metric ion-card-header {
+  padding: clamp(8px, 2vw, 20px);
+}
+
+.dashboard-metric ion-card-subtitle {
+  font-size: clamp(0.7rem, 1.4vw, 0.9rem);
+}
+
+.dashboard-metric ion-card-title {
+  margin-top: 7px;
+  font-size: clamp(1.05rem, 3vw, 2.2rem);
+}
+
+.dashboard-metric.emphasis ion-card-title,
+.dashboard-metric.emphasis ion-card-subtitle,
+.dashboard-feature ion-card-title,
+.dashboard-feature ion-card-content {
+  color: white;
+}
+
+.dashboard-feature ion-img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.dashboard-feature ion-img::part(image) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 58%;
+}
+
+.ticket-count,
+.booking-reference {
+  display: block;
+}
+
+.booking-reference {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+ion-item {
+  --padding-start: 0;
+}
+
+ion-note {
+  max-width: 42%;
+  margin-inline-end: 8px;
+  text-align: end;
+}
+
+.chart {
+  height: 190px;
+}
+
+.chart-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  text-align: center;
+  font-size: clamp(0.64rem, 1.2vw, 0.82rem);
+}
+
+.chart-bar {
+  width: min(75%, 66px);
+  border-radius: 4px 4px 0 0;
+  background: #c9b7f4;
+}
+
+.chart-column:last-child .chart-bar {
+  background: var(--ion-color-primary-shade);
 }

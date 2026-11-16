@@ -1,16 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular';
+import { DatePipe } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { IonGrid, IonText, IonButton, IonContent, IonModal } from '@ionic/angular';
+import { events, Preview, TicketBooking } from '../../services/preview';
 
 @Component({
   selector: 'app-my-bookings',
   templateUrl: './my-bookings.page.html',
-  styleUrls: ['./my-bookings.page.scss'],
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule],
+  imports: [IonGrid, IonText, DatePipe, RouterLink, IonButton, IonContent, IonModal],
 })
-export class MyBookingsPage implements OnInit {
-  constructor() {}
+export class MyBookingsPage {
+  private readonly preview = inject(Preview);
+  readonly bookings = computed(() =>
+    this.preview.bookings().flatMap((booking) => {
+      const event = events.find((event) => event.id === booking.eventId);
+      return event ? [{ booking, event }] : [];
+    }),
+  );
+  readonly pending = signal<{ booking: TicketBooking; event: (typeof events)[number] } | null>(null);
+  readonly status = signal('');
 
-  ngOnInit() {}
+  cancel() {
+    const selected = this.pending();
+    if (!selected) return;
+
+    this.preview.cancel(selected.booking.id);
+    this.status.set('Booking cancelled.');
+  }
 }

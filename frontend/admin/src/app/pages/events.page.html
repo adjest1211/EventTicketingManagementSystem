@@ -1,0 +1,93 @@
+<ion-content>
+  <ion-grid class="ui-layout page">
+    <ion-grid class="ui-layout page-heading">
+      <ion-grid class="ui-layout">
+        <ion-text class="ui-h1" role="heading" aria-level="1">Your events</ion-text>
+        <ion-text class="ui-p">Manage published events and ticket capacity.</ion-text>
+      </ion-grid>
+      <ion-button routerLink="/events/new">Add event</ion-button>
+    </ion-grid>
+    <ion-text class="ui-p feedback" role="status">{{ message() }}</ion-text>
+    <ion-grid class="ui-layout panel">
+      <ion-grid class="ui-layout table-scroll" tabindex="0" role="region" aria-label="Published events">
+        <ion-grid class="ui-table ui-layout" role="table">
+          <ion-grid class="ui-thead ui-layout" role="rowgroup">
+            <ion-row class="ui-tr" role="row">
+              <ion-col class="ui-th" role="columnheader">Event</ion-col>
+              <ion-col class="ui-th" role="columnheader">Date</ion-col>
+              <ion-col class="ui-th" role="columnheader">Tickets sold</ion-col>
+              <ion-col class="ui-th" role="columnheader">Price</ion-col>
+              <ion-col class="ui-th" role="columnheader">Status</ion-col>
+              <ion-col class="ui-th" role="columnheader">Actions</ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-grid class="ui-tbody ui-layout" role="rowgroup">
+            @for (event of workspace.events(); track event.id) { @let sold = workspace.ticketsSold(event.id);
+            <ion-row class="ui-tr" role="row">
+              <ion-col class="ui-th" role="rowheader">
+                <ion-grid class="ui-layout event-name"
+                  >{{ event.name }}<ion-text class="ui-small">{{ event.category }}</ion-text></ion-grid
+                >
+              </ion-col>
+              <ion-col class="ui-td" role="cell">{{ event.date | date:'MMM d, y' }}</ion-col>
+              <ion-col class="ui-td" role="cell">{{ sold }} / {{ event.capacity }}</ion-col>
+              <ion-col class="ui-td" role="cell">{{ event.price | currency:'PHP':'₱':'1.0-2' }}</ion-col>
+              <ion-col class="ui-td" role="cell"><ion-badge class="status">Published</ion-badge></ion-col>
+              <ion-col class="ui-td" role="cell">
+                <ion-grid class="ui-layout row-actions">
+                  <ion-button
+                    class="secondary"
+                    size="small"
+                    [routerLink]="['/events', event.id]"
+                    [attr.aria-label]="'View ' + event.name"
+                    >View</ion-button
+                  >
+                  <ion-button
+                    class="secondary"
+                    size="small"
+                    [routerLink]="['/events', event.id, 'edit']"
+                    [attr.aria-label]="'Edit ' + event.name"
+                    >Edit</ion-button
+                  >
+                  @if (sold === 0) {
+                  <ion-button
+                    size="small"
+                    fill="clear"
+                    [attr.aria-label]="'Delete ' + event.name"
+                    (click)="pending.set(event)"
+                    >Delete</ion-button
+                  >
+                  }
+                </ion-grid>
+                @if (sold > 0) { <ion-text class="ui-small">Confirmed bookings</ion-text> }
+              </ion-col>
+            </ion-row>
+            } @empty {
+            <ion-row class="ui-tr" role="row">
+              <ion-col class="ui-td ui-empty-cell" role="cell">No events have been published.</ion-col>
+            </ion-row>
+            }
+          </ion-grid>
+        </ion-grid>
+      </ion-grid>
+    </ion-grid>
+    <ion-text class="ui-p helper">Events with confirmed bookings cannot be deleted.</ion-text>
+  </ion-grid>
+</ion-content>
+<ion-modal #dialog [isOpen]="pending() !== null" (didDismiss)="pending.set(null)" aria-labelledby="delete-title">
+  <ng-template>
+    @if (pending(); as event) {
+    <ion-grid class="ui-layout dialog">
+      <ion-text class="ui-h2" id="delete-title" role="heading" aria-level="2">Delete this event?</ion-text>
+      <ion-text class="ui-strong">{{ event.name }}</ion-text>
+      <ion-text class="ui-p"
+        >This event has no confirmed bookings. Deleting it permanently removes it from the event list.</ion-text
+      >
+      <ion-grid class="ui-layout row-actions">
+        <ion-button class="secondary" (click)="dialog.dismiss()">Keep event</ion-button>
+        <ion-button (click)="remove(event); dialog.dismiss()">Yes, delete event</ion-button>
+      </ion-grid>
+    </ion-grid>
+    }
+  </ng-template>
+</ion-modal>

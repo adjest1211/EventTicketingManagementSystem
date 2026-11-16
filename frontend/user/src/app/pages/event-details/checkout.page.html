@@ -1,0 +1,87 @@
+<ion-content>
+  <ion-grid class="ui-layout page">
+    @if (event(); as item) {
+    <ion-button class="ui-link back-link" [routerLink]="['/event-details', item.id]" fill="clear"
+      >Back to event</ion-button
+    >
+    <ion-grid class="ui-layout page-heading">
+      <ion-text class="ui-h1" role="heading" aria-level="1">Book tickets</ion-text>
+      <ion-text class="ui-p">Choose your tickets and enter your details.</ion-text>
+    </ion-grid>
+    <form class="checkout-grid" #checkout="ngForm" (ngSubmit)="confirm()">
+      <ion-grid class="ui-layout surface panel">
+        <ion-text class="ui-h2" role="heading" aria-level="2">Choose your tickets</ion-text>
+        <ion-grid class="ui-layout quantity-row">
+          <ion-grid class="ui-layout">
+            <ion-text class="ui-strong">General admission</ion-text>
+            <ion-text class="ui-p muted">₱{{ item.price }} per ticket</ion-text>
+          </ion-grid>
+          @if (quantities().length) {
+          <ion-select label="Quantity" name="quantity" [(ngModel)]="quantity" interface="popover">
+            @for (amount of quantities(); track amount) {
+            <ion-select-option [value]="amount">{{ amount }}</ion-select-option>
+            }
+          </ion-select>
+          } @else {
+          <ion-text class="ui-p">Sold out</ion-text>
+          }
+        </ion-grid>
+        <ion-text class="ui-separator" role="separator"></ion-text>
+        <ion-text class="ui-h2" role="heading" aria-level="2">Your details</ion-text>
+        <ion-input
+          label="Full name"
+          labelPlacement="stacked"
+          fill="outline"
+          autocomplete="name"
+          name="name"
+          required
+          [(ngModel)]="name"
+        ></ion-input>
+        <ion-input
+          label="Email address"
+          labelPlacement="stacked"
+          fill="outline"
+          autocomplete="email"
+          type="email"
+          name="email"
+          required
+          email
+          [(ngModel)]="email"
+        ></ion-input>
+        <ion-text class="ui-p notice">Preview bookings are saved on this device.</ion-text>
+      </ion-grid>
+      <ion-grid class="ui-layout panel summary">
+        <ion-text class="ui-p eyebrow">Order summary</ion-text>
+        <ion-text class="ui-h2" role="heading" aria-level="2">{{ item.name }}</ion-text>
+        <ion-text class="ui-p"
+          >{{ item.date | date:'EEE, MMM d · h:mm a':'+0800' }}<ion-text class="ui-break" aria-hidden="true"></ion-text
+          >{{ item.venue }}</ion-text
+        >
+        <ion-text class="ui-separator" role="separator"></ion-text>
+        <ion-grid class="ui-layout card-footer"
+          ><ion-text class="ui-span">General admission</ion-text
+          ><ion-text class="ui-strong">{{ quantity }}</ion-text></ion-grid
+        >
+        <ion-text class="ui-separator" role="separator"></ion-text>
+        <ion-grid class="ui-layout card-footer"
+          ><ion-text class="ui-span">Total</ion-text
+          ><ion-text class="ui-strong price">₱{{ item.price * quantity }}</ion-text></ion-grid
+        >
+        <ion-button
+          type="submit"
+          expand="block"
+          class="lavender-button"
+          [disabled]="checkout.invalid || !name.trim() || !quantities().length || submitting"
+          >Confirm booking</ion-button
+        >
+        @if (message) {
+        <ion-text class="ui-p" role="alert">{{ message }}</ion-text>
+        }
+      </ion-grid>
+    </form>
+    } @else {
+    <ion-text class="ui-h1" role="heading" aria-level="1">Event not found</ion-text>
+    <ion-button class="ui-link" routerLink="/events" fill="clear">Discover events</ion-button>
+    }
+  </ion-grid>
+</ion-content>
