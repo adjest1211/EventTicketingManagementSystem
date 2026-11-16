@@ -1,13 +1,58 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-grid class="ui-layout auth-layout">
+    <ion-grid class="ui-layout auth-form">
+      <ion-grid class="ui-layout page-heading">
+        <ion-text class="ui-h1" role="heading" aria-level="1">Create account</ion-text>
+        <ion-text class="ui-p">Try the booking flow with a preview profile.</ion-text>
+      </ion-grid>
+      <form #account="ngForm" (ngSubmit)="submit()">
+        <ion-input
+          label="Full name"
+          labelPlacement="stacked"
+          fill="outline"
+          name="name"
+          autocomplete="name"
+          required
+          [(ngModel)]="name"
+        ></ion-input>
+        <ion-input
+          label="Email address"
+          labelPlacement="stacked"
+          fill="outline"
+          name="email"
+          autocomplete="email"
+          type="email"
+          required
+          email
+          [(ngModel)]="email"
+        ></ion-input>
+        <ion-input
+          label="Password"
+          labelPlacement="stacked"
+          fill="outline"
+          name="password"
+          autocomplete="new-password"
+          type="password"
+          required
+          minlength="8"
+          helperText="At least 8 characters"
+          [(ngModel)]="password"
+        ></ion-input>
+        <ion-button type="submit" expand="block" [disabled]="account.invalid || !name.trim()"
+          >Create account</ion-button
+        >
+      </form>
+      <ion-text class="ui-p muted"
+        >Already have an account?
+        <ion-button class="ui-link" routerLink="/login" fill="clear">Log in</ion-button></ion-text
+      >
+    </ion-grid>
+    <ion-grid class="ui-layout auth-poster auth-poster-comedy">
+      <ion-img src="assets/signup-comedy.jpg" alt=""></ion-img>
+      <ion-text class="ui-strong"
+        >See you<ion-text class="ui-break" aria-hidden="true"></ion-text>at the comedy club.</ion-text
+      >
+      <ion-text class="ui-span">EVENTIFY</ion-text>
+    </ion-grid>
+  </ion-grid>
 </ion-content>

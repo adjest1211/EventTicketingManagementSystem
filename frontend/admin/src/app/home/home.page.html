@@ -1,21 +1,113 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Blank </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <ion-grid class="page dashboard">
+    <ion-row class="dashboard-heading">
+      <ion-col size="12" size-sm="auto">
+        <ion-text class="eyebrow">{{ workspace.asOf | date:'EEEE, MMMM d, y' }}</ion-text>
+        <ion-text class="dashboard-title" role="heading" aria-level="1">Dashboard</ion-text>
+        <ion-text>Track ticket sales and upcoming events.</ion-text>
+      </ion-col>
+      <ion-col size="auto"><ion-button routerLink="/events/new">Create event</ion-button></ion-col>
+    </ion-row>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-row aria-label="Event totals">
+      <ion-col size="4">
+        <ion-card class="dashboard-metric emphasis">
+          <ion-card-header>
+            <ion-card-subtitle>Gross ticket sales</ion-card-subtitle>
+            <ion-card-title>{{ workspace.revenue | currency:'PHP':'₱':'1.0-2' }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card class="dashboard-metric">
+          <ion-card-header>
+            <ion-card-subtitle>Tickets sold</ion-card-subtitle>
+            <ion-card-title>{{ workspace.tickets }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card class="dashboard-metric">
+          <ion-card-header>
+            <ion-card-subtitle>Upcoming events</ion-card-subtitle>
+            <ion-card-title>{{ workspace.upcoming().length }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>
-      Start with Ionic
-      <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a>
-    </p>
-  </div>
+    <ion-row>
+      <ion-col size="12" size-md="8">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title role="heading" aria-level="2">Weekly ticket sales</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row class="chart">
+              @for (week of weeks; track week.label) {
+              <ion-col size="3" class="chart-column">
+                <ion-text>{{ week.total | currency:'PHP':'₱':'1.0-2' }}</ion-text>
+                <ion-text class="chart-bar" [style.height.%]="week.total / peak * 65" aria-hidden="true"></ion-text>
+                <ion-text>{{ week.label }}</ion-text>
+              </ion-col>
+              }
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      @if (workspace.upcoming()[0]; as event) {
+      <ion-col size="12" size-md="4">
+        <ion-card class="feature dashboard-feature">
+          @if (event.photo) { <ion-img [src]="event.photo" alt=""></ion-img> }
+          <ion-card-header>
+            <ion-card-subtitle class="eyebrow">Up next</ion-card-subtitle>
+            <ion-card-title role="heading" aria-level="2">{{ event.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-text>{{ event.date | date:'MMM d, y' }} · {{ event.venue }}</ion-text>
+            <ion-progress-bar
+              [value]="workspace.ticketsSold(event.id) / event.capacity"
+              aria-label="Ticket sales progress"
+            ></ion-progress-bar>
+            <ion-text class="ticket-count"
+              >{{ workspace.ticketsSold(event.id) }} of {{ event.capacity }} tickets sold</ion-text
+            >
+            <ion-button class="accent" [routerLink]="['/events', event.id]">Manage event</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      }
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header class="section-header">
+            <ion-card-title role="heading" aria-level="2">Recent bookings</ion-card-title>
+            <ion-button class="secondary" routerLink="/bookings">View all bookings</ion-button>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              @for (booking of recentBookings; track booking.reference) {
+              <ion-item>
+                <ion-label>
+                  {{ booking.attendee }}
+                  <ion-text class="booking-reference"
+                    >{{ booking.reference }} · {{ booking.quantity }} ticket(s)</ion-text
+                  >
+                </ion-label>
+                <ion-note slot="end"
+                  >{{ booking.eventName }} · {{ booking.total | currency:'PHP':'₱':'1.0-2' }}</ion-note
+                >
+                <ion-badge slot="end" class="status" [class.cancelled]="booking.status === 'Cancelled'"
+                  >{{ booking.status }}</ion-badge
+                >
+              </ion-item>
+              }
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
