@@ -1,13 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IonGrid, IonText, IonButton, IonContent, IonModal } from '@ionic/angular';
+import { IonGrid, IonLabel, IonButton, IonContent, IonModal } from '@ionic/angular';
 import { events, Preview, TicketBooking } from '../../services/preview';
 
 @Component({
   selector: 'app-my-bookings',
   templateUrl: './my-bookings.page.html',
-  imports: [IonGrid, IonText, DatePipe, RouterLink, IonButton, IonContent, IonModal],
+  imports: [IonGrid, IonLabel, DatePipe, RouterLink, IonButton, IonContent, IonModal],
 })
 export class MyBookingsPage {
   private readonly preview = inject(Preview);

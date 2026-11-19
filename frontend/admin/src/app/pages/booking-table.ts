@@ -9,7 +9,7 @@ import { Workspace } from '../workspace';
   template: `
     <ion-grid class="ui-layout table-scroll" tabindex="0" role="region" aria-label="Booking records">
       <ion-grid class="ui-table ui-layout" role="table">
-        <ion-grid class="ui-thead ui-layout" role="rowgroup">
+        <ion-grid class="ui-thead ui-layoust" role="rowgroup">
           <ion-row class="ui-tr" role="row">
             <ion-col class="ui-th" role="columnheader">Reference</ion-col>
             <ion-col class="ui-th" role="columnheader">Attendee</ion-col>

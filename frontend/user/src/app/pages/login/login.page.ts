@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { IonGrid, IonText, IonImg, IonButton, IonContent, IonInput } from '@ionic/angular';
+import { IonGrid, IonLabel, IonImg, IonButton, IonContent, IonInput } from '@ionic/angular';
 import { Preview } from '../../services/preview';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  imports: [IonGrid, IonText, IonImg, FormsModule, RouterLink, IonButton, IonContent, IonInput],
+  imports: [IonGrid, IonLabel, IonImg, FormsModule, RouterLink, IonButton, IonContent, IonInput],
 })
 export class LoginPage {
   private readonly preview = inject(Preview);

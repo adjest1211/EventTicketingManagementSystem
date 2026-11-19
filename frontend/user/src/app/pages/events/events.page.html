@@ -1,23 +1,23 @@
 <ion-content>
   <ion-grid class="ui-layout page">
     <ion-grid class="ui-layout page-heading">
-      <ion-text class="ui-h1" role="heading" aria-level="1">Discover events</ion-text>
-      <ion-text class="ui-p">Find live music, workshops and comedy.</ion-text>
+      <ion-label class="ui-h1" role="heading" aria-level="1">Discover events</ion-label>
+      <ion-label class="ui-p">Find live music, workshops and comedy.</ion-label>
     </ion-grid>
 
     <ion-grid class="ui-layout hero" aria-labelledby="featured-title">
       <ion-img class="hero-photo" src="assets/night-shift-concert.jpg" alt=""></ion-img>
       <ion-grid class="ui-layout hero-copy">
-        <ion-text class="ui-p eyebrow">Featured event</ion-text>
-        <ion-text class="ui-h2" id="featured-title" role="heading" aria-level="2">{{ featured.name }}</ion-text>
-        <ion-text class="ui-p">{{ featured.venue }} · {{ featured.date | date:'MMM d, h:mm a':'+0800' }}</ion-text>
+        <ion-label class="ui-p eyebrow">Featured event</ion-label>
+        <ion-label class="ui-h2" id="featured-title" role="heading" aria-level="2">{{ featured.name }}</ion-label>
+        <ion-label class="ui-p">{{ featured.venue }} · {{ featured.date | date:'MMM d, h:mm a':'+0800' }}</ion-label>
         <ion-button class="lavender-button" [routerLink]="['/event-details', featured.id]"
           >Explore Night Shift</ion-button
         >
       </ion-grid>
     </ion-grid>
 
-    <ion-text class="ui-h2 section-heading" role="heading" aria-level="2">On the calendar</ion-text>
+    <ion-label class="ui-h2 section-heading" role="heading" aria-level="2">On the calendar</ion-label>
     <ion-searchbar
       class="event-search"
       aria-label="Search events"
@@ -28,15 +28,15 @@
       @for (event of events(); track event.id) {
       <ion-card class="surface event-card">
         <ion-grid class="ui-layout" [class]="'poster poster-' + event.poster" aria-hidden="true"
-          ><ion-text class="ui-span">{{ event.headline }}</ion-text></ion-grid
+          ><ion-label class="ui-span">{{ event.headline }}</ion-label></ion-grid
         >
         <ion-card-content>
-          <ion-text class="ui-p eyebrow">{{ event.category }}</ion-text>
-          <ion-text class="ui-h3" role="heading" aria-level="3">{{ event.name }}</ion-text>
-          <ion-text class="ui-p">{{ event.date | date:'EEE, MMM d · h:mm a':'+0800' }}</ion-text>
-          <ion-text class="ui-p">{{ event.venue }}</ion-text>
+          <ion-label class="ui-p eyebrow">{{ event.category }}</ion-label>
+          <ion-label class="ui-h3" role="heading" aria-level="3">{{ event.name }}</ion-label>
+          <ion-label class="ui-p">{{ event.date | date:'EEE, MMM d · h:mm a':'+0800' }}</ion-label>
+          <ion-label class="ui-p">{{ event.venue }}</ion-label>
           <ion-grid class="ui-layout card-footer">
-            <ion-text class="ui-strong">₱{{ event.price }}</ion-text>
+            <ion-label class="ui-strong">₱{{ event.price }}</ion-label>
             <ion-button
               size="small"
               class="neutral-button"
@@ -48,7 +48,7 @@
         </ion-card-content>
       </ion-card>
       } @empty {
-      <ion-text class="ui-p">No events match your search.</ion-text>
+      <ion-label class="ui-p">No events match your search.</ion-label>
       }
     </ion-grid>
   </ion-grid>

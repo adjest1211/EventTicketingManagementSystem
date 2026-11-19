@@ -1,7 +1,7 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IonGrid, IonText, IonRow, IonCol, IonBadge, IonButton, IonContent, IonModal } from '@ionic/angular';
+import { IonGrid, IonLabel, IonRow, IonCol, IonBadge, IonButton, IonContent, IonModal } from '@ionic/angular';
 import { ManagedEvent, Workspace } from '../workspace';
 
 @Component({
@@ -9,7 +9,7 @@ import { ManagedEvent, Workspace } from '../workspace';
   templateUrl: './events.page.html',
   imports: [
     IonGrid,
-    IonText,
+    IonLabel,
     IonRow,
     IonCol,
     CurrencyPipe,

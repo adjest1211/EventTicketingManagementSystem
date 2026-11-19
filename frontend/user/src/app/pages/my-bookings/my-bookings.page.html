@@ -1,22 +1,22 @@
 <ion-content>
   <ion-grid class="ui-layout page">
     <ion-grid class="ui-layout page-heading">
-      <ion-text class="ui-h1" role="heading" aria-level="1">My bookings</ion-text>
-      <ion-text class="ui-p">View and manage your tickets.</ion-text>
+      <ion-label class="ui-h1" role="heading" aria-level="1">My bookings</ion-label>
+      <ion-label class="ui-p">View and manage your tickets.</ion-label>
     </ion-grid>
-    <ion-text class="ui-p" role="status">{{ status() }}</ion-text>
+    <ion-label class="ui-p" role="status">{{ status() }}</ion-label>
     @for (entry of bookings(); track entry.booking.id) {
     <ion-grid class="ui-layout surface booking-row" role="article">
       <ion-grid class="ui-layout date-tile">
-        <ion-text class="ui-span">{{ entry.event.date | date:'MMM':'+0800' }}</ion-text>
-        <ion-text class="ui-strong">{{ entry.event.date | date:'d':'+0800' }}</ion-text>
+        <ion-label class="ui-span">{{ entry.event.date | date:'MMM':'+0800' }}</ion-label>
+        <ion-label class="ui-strong">{{ entry.event.date | date:'d':'+0800' }}</ion-label>
       </ion-grid>
       <ion-grid class="ui-layout booking-info">
-        <ion-text class="ui-h2" role="heading" aria-level="2">{{ entry.event.name }}</ion-text>
-        <ion-text class="ui-p">{{ entry.event.date | date:'EEE, h:mm a':'+0800' }} · {{ entry.event.venue }}</ion-text>
-        <ion-text class="ui-strong"
+        <ion-label class="ui-h2" role="heading" aria-level="2">{{ entry.event.name }}</ion-label>
+        <ion-label class="ui-p">{{ entry.event.date | date:'EEE, h:mm a':'+0800' }} · {{ entry.event.venue }}</ion-label>
+        <ion-label class="ui-strong"
           >{{ entry.booking.quantity }} {{ entry.booking.quantity === 1 ? 'ticket' : 'tickets' }} · ₱{{
-          entry.booking.quantity * entry.event.price }}</ion-text
+          entry.booking.quantity * entry.event.price }}</ion-label
         >
       </ion-grid>
       <ion-grid class="ui-layout booking-actions">
@@ -26,7 +26,7 @@
     </ion-grid>
     } @empty {
     <ion-grid class="ui-layout surface panel">
-      <ion-text class="ui-h2" role="heading" aria-level="2">No bookings yet</ion-text>
+      <ion-label class="ui-h2" role="heading" aria-level="2">No bookings yet</ion-label>
       <ion-button routerLink="/events">Discover events</ion-button>
     </ion-grid>
     }
@@ -43,10 +43,10 @@
   <ng-template>
     @if (pending(); as entry) {
     <ion-grid class="ui-layout panel">
-      <ion-text class="ui-h2" id="cancel-title" role="heading" aria-level="2">Cancel your booking?</ion-text>
-      <ion-text class="ui-strong">{{ entry.event.name }}</ion-text>
-      <ion-text class="ui-p muted"
-        >All tickets in this booking will be cancelled. This action cannot be undone.</ion-text
+      <ion-label class="ui-h2" id="cancel-title" role="heading" aria-level="2">Cancel your booking?</ion-label>
+      <ion-label class="ui-strong">{{ entry.event.name }}</ion-label>
+      <ion-label class="ui-p muted"
+        >All tickets in this booking will be cancelled. This action cannot be undone.</ion-label
       >
       <ion-grid class="ui-layout modal-actions">
         <ion-button class="dark-button" (click)="cancelDialog.dismiss()">Keep my tickets</ion-button>

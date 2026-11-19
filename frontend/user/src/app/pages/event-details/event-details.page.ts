@@ -1,13 +1,13 @@
 import { Component, computed, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { IonGrid, IonText, IonButton, IonContent } from '@ionic/angular';
+import { IonGrid, IonLabel, IonButton, IonContent } from '@ionic/angular';
 import { events } from '../../services/preview';
 
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.page.html',
-  imports: [IonGrid, IonText, DatePipe, RouterLink, IonButton, IonContent],
+  imports: [IonGrid, IonLabel, DatePipe, RouterLink, IonButton, IonContent],
 })
 export class EventDetailsPage {
   readonly id = input<string>();

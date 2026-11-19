@@ -2,12 +2,12 @@
   <ion-grid class="ui-layout page">
     <ion-grid class="ui-layout page-heading">
       <ion-grid class="ui-layout">
-        <ion-text class="ui-h1" role="heading" aria-level="1">Your events</ion-text>
-        <ion-text class="ui-p">Manage published events and ticket capacity.</ion-text>
+        <ion-label class="ui-h1" role="heading" aria-level="1">Your events</ion-label>
+        <ion-label class="ui-p">Manage published events and ticket capacity.</ion-label>
       </ion-grid>
       <ion-button routerLink="/events/new">Add event</ion-button>
     </ion-grid>
-    <ion-text class="ui-p feedback" role="status">{{ message() }}</ion-text>
+    <ion-label class="ui-p feedback" role="status">{{ message() }}</ion-label>
     <ion-grid class="ui-layout panel">
       <ion-grid class="ui-layout table-scroll" tabindex="0" role="region" aria-label="Published events">
         <ion-grid class="ui-table ui-layout" role="table">
@@ -26,7 +26,7 @@
             <ion-row class="ui-tr" role="row">
               <ion-col class="ui-th" role="rowheader">
                 <ion-grid class="ui-layout event-name"
-                  >{{ event.name }}<ion-text class="ui-small">{{ event.category }}</ion-text></ion-grid
+                  >{{ event.name }}<ion-label class="ui-small">{{ event.category }}</ion-label></ion-grid
                 >
               </ion-col>
               <ion-col class="ui-td" role="cell">{{ event.date | date:'MMM d, y' }}</ion-col>
@@ -59,7 +59,7 @@
                   >
                   }
                 </ion-grid>
-                @if (sold > 0) { <ion-text class="ui-small">Confirmed bookings</ion-text> }
+                @if (sold > 0) { <ion-label class="ui-small">Confirmed bookings</ion-label> }
               </ion-col>
             </ion-row>
             } @empty {
@@ -71,17 +71,17 @@
         </ion-grid>
       </ion-grid>
     </ion-grid>
-    <ion-text class="ui-p helper">Events with confirmed bookings cannot be deleted.</ion-text>
+    <ion-label class="ui-p helper">Events with confirmed bookings cannot be deleted.</ion-label>
   </ion-grid>
 </ion-content>
 <ion-modal #dialog [isOpen]="pending() !== null" (didDismiss)="pending.set(null)" aria-labelledby="delete-title">
   <ng-template>
     @if (pending(); as event) {
     <ion-grid class="ui-layout dialog">
-      <ion-text class="ui-h2" id="delete-title" role="heading" aria-level="2">Delete this event?</ion-text>
-      <ion-text class="ui-strong">{{ event.name }}</ion-text>
-      <ion-text class="ui-p"
-        >This event has no confirmed bookings. Deleting it permanently removes it from the event list.</ion-text
+      <ion-label class="ui-h2" id="delete-title" role="heading" aria-level="2">Delete this event?</ion-label>
+      <ion-label class="ui-strong">{{ event.name }}</ion-label>
+      <ion-label class="ui-p"
+        >This event has no confirmed bookings. Deleting it permanently removes it from the event list.</ion-label
       >
       <ion-grid class="ui-layout row-actions">
         <ion-button class="secondary" (click)="dialog.dismiss()">Keep event</ion-button>

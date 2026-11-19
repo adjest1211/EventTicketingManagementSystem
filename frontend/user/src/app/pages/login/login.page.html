@@ -2,8 +2,8 @@
   <ion-grid class="ui-layout auth-layout">
     <ion-grid class="ui-layout auth-form">
       <ion-grid class="ui-layout page-heading">
-        <ion-text class="ui-h1" role="heading" aria-level="1">Log in</ion-text>
-        <ion-text class="ui-p">Enter an email and a sample password to try this screen.</ion-text>
+        <ion-label class="ui-h1" role="heading" aria-level="1">Log in</ion-label>
+        <ion-label class="ui-p">Enter an email and a sample password to try this screen.</ion-label>
       </ion-grid>
       <form #account="ngForm" (ngSubmit)="submit()">
         <ion-input
@@ -29,17 +29,17 @@
         ></ion-input>
         <ion-button type="submit" expand="block" [disabled]="account.invalid">Log in</ion-button>
       </form>
-      <ion-text class="ui-p muted"
+      <ion-label class="ui-p muted"
         >New to EVENTIFY?
-        <ion-button class="ui-link" routerLink="/register" fill="clear">Create an account</ion-button></ion-text
+        <ion-button class="ui-link" routerLink="/register" fill="clear">Create an account</ion-button></ion-label
       >
     </ion-grid>
     <ion-grid class="ui-layout auth-poster">
       <ion-img src="assets/login-concert.jpg" alt=""></ion-img>
-      <ion-text class="ui-strong"
-        >See you<ion-text class="ui-break" aria-hidden="true"></ion-text>at the show.</ion-text
+      <ion-label class="ui-strong"
+        >See you<ion-label class="ui-break" aria-hidden="true"></ion-label>at the show.</ion-label
       >
-      <ion-text class="ui-span">EVENTIFY</ion-text>
+      <ion-label class="ui-span">EVENTIFY</ion-label>
     </ion-grid>
   </ion-grid>
 </ion-content>

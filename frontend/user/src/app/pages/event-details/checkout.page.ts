@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { IonGrid, IonText, IonButton, IonContent, IonInput, IonSelect, IonSelectOption } from '@ionic/angular';
+import { IonGrid, IonLabel, IonButton, IonContent, IonInput, IonSelect, IonSelectOption } from '@ionic/angular';
 import { events, Preview } from '../../services/preview';
 
 @Component({
@@ -10,7 +10,7 @@ import { events, Preview } from '../../services/preview';
   templateUrl: './checkout.page.html',
   imports: [
     IonGrid,
-    IonText,
+    IonLabel,
     DatePipe,
     FormsModule,
     RouterLink,

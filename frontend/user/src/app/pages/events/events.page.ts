@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { IonGrid, IonText, IonImg, IonButton, IonCard, IonCardContent, IonContent, IonSearchbar } from '@ionic/angular';
+import { IonGrid, IonLabel, IonImg, IonButton, IonCard, IonCardContent, IonContent, IonSearchbar } from '@ionic/angular';
 import { events } from '../../services/preview';
 
 @Component({
@@ -9,7 +9,7 @@ import { events } from '../../services/preview';
   templateUrl: './events.page.html',
   imports: [
     IonGrid,
-    IonText,
+    IonLabel,
     IonImg,
     DatePipe,
     RouterLink,

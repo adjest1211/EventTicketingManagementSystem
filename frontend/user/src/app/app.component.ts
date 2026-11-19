@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   IonGrid,
-  IonText,
+  IonLabel,
   IonApp,
   IonButton,
   IonIcon,
@@ -20,7 +20,7 @@ import { Preview } from './services/preview';
   templateUrl: 'app.component.html',
   imports: [
     IonGrid,
-    IonText,
+    IonLabel,
     IonApp,
     IonButton,
     IonIcon,

@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonGrid, IonText, IonImg, IonButton, IonContent, IonInput } from '@ionic/angular';
+import { IonGrid, IonLabel, IonImg, IonButton, IonContent, IonInput } from '@ionic/angular';
 import { Workspace } from '../workspace';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  imports: [IonGrid, IonText, IonImg, FormsModule, IonButton, IonContent, IonInput],
+  imports: [IonGrid, IonLabel, IonImg, FormsModule, IonButton, IonContent, IonInput],
 })
 export class LoginPage {
   private readonly workspace = inject(Workspace);

@@ -6,17 +6,17 @@
     @if (!id() || existing()) {
     <ion-grid class="ui-layout page-heading">
       <ion-grid class="ui-layout">
-        <ion-text class="ui-h1" role="heading" aria-level="1">{{ existing() ? 'Edit event' : 'Add event' }}</ion-text>
-        <ion-text class="ui-p">
+        <ion-label class="ui-h1" role="heading" aria-level="1">{{ existing() ? 'Edit event' : 'Add event' }}</ion-label>
+        <ion-label class="ui-p">
           {{ existing() ? 'Update this event’s listing and ticket capacity.' : 'Enter the details for a new event
           listing.' }}
-        </ion-text>
+        </ion-label>
       </ion-grid>
     </ion-grid>
     <form #editor="ngForm" (ngSubmit)="submit(editor)">
       <ion-grid class="ui-layout editor-grid">
         <ion-grid class="ui-layout panel fields">
-          <ion-text class="ui-h2 full" role="heading" aria-level="2">Event details</ion-text>
+          <ion-label class="ui-h2 full" role="heading" aria-level="2">Event details</ion-label>
           <ion-input
             class="full"
             name="name"
@@ -82,7 +82,7 @@
             required
             [(ngModel)]="draft.capacity"
           ></ion-input>
-          <ion-textarea
+          <ion-labelarea
             class="full"
             name="description"
             label="Description"
@@ -91,12 +91,12 @@
             rows="4"
             required
             [(ngModel)]="draft.description"
-          ></ion-textarea>
+          ></ion-labelarea>
           <ion-grid class="ui-layout full">
-            <ion-text class="ui-h3" role="heading" aria-level="3"
-              >Event picture <ion-text class="ui-small">(optional)</ion-text></ion-text
+            <ion-label class="ui-h3" role="heading" aria-level="3"
+              >Event picture <ion-label class="ui-small">(optional)</ion-label></ion-label
             >
-            <ion-text class="ui-p helper">JPG, PNG, or WebP up to 1 MB.</ion-text>
+            <ion-label class="ui-p helper">JPG, PNG, or WebP up to 1 MB.</ion-label>
             <input
               #photoPicker
               type="file"
@@ -120,30 +120,30 @@
               }
             </ion-grid>
             @if (readingPhoto()) {
-            <ion-text class="ui-p" role="status">Loading picture…</ion-text>
+            <ion-label class="ui-p" role="status">Loading picture…</ion-label>
             }
-            <ion-text class="ui-p feedback" role="alert">{{ photoError() }}</ion-text>
+            <ion-label class="ui-p feedback" role="alert">{{ photoError() }}</ion-label>
           </ion-grid>
         </ion-grid>
         <ion-grid class="ui-layout">
           <ion-grid class="ui-layout panel feature event-preview">
             @if (draft.photo; as photo) { <ion-img [src]="photo" alt=""></ion-img> }
-            <ion-text class="ui-p eyebrow">Event preview</ion-text>
-            <ion-text class="ui-h2" role="heading" aria-level="2">{{ draft.name || 'Event name' }}</ion-text>
+            <ion-label class="ui-p eyebrow">Event preview</ion-label>
+            <ion-label class="ui-h2" role="heading" aria-level="2">{{ draft.name || 'Event name' }}</ion-label>
             @if (draft.date) {
-            <ion-text class="ui-p">{{ draft.date | date:'MMM d, y' }} · {{ draft.time }}</ion-text>
+            <ion-label class="ui-p">{{ draft.date | date:'MMM d, y' }} · {{ draft.time }}</ion-label>
             }
-            <ion-text class="ui-p">{{ draft.venue }}</ion-text>
-            <ion-text class="ui-p">{{ draft.price | currency:'PHP':'₱':'1.0-2' }}</ion-text>
+            <ion-label class="ui-p">{{ draft.venue }}</ion-label>
+            <ion-label class="ui-p">{{ draft.price | currency:'PHP':'₱':'1.0-2' }}</ion-label>
           </ion-grid>
           @if (existing()) {
-          <ion-text class="ui-p notice">
+          <ion-label class="ui-p notice">
             Existing bookings keep their original ticket price. Capacity must cover confirmed tickets.
-          </ion-text>
+          </ion-label>
           }
         </ion-grid>
       </ion-grid>
-      <ion-text class="ui-p feedback" role="alert">{{ message }}</ion-text>
+      <ion-label class="ui-p feedback" role="alert">{{ message }}</ion-label>
       <ion-grid class="ui-layout row-actions">
         <ion-button type="submit" [disabled]="editor.invalid || saving || readingPhoto()"
           >{{ existing() ? 'Save changes' : 'Publish event' }}</ion-button
@@ -154,7 +154,7 @@
       </ion-grid>
     </form>
     } @else {
-    <ion-text class="ui-h1" role="heading" aria-level="1">Event not found</ion-text>
+    <ion-label class="ui-h1" role="heading" aria-level="1">Event not found</ion-label>
     }
   </ion-grid>
 </ion-content>

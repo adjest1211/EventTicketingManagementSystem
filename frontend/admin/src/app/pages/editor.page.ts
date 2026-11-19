@@ -2,7 +2,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { IonGrid, IonText, IonImg, IonButton, IonContent, IonInput, IonTextarea } from '@ionic/angular';
+import { IonGrid, IonLabel, IonImg, IonButton, IonContent, IonInput, IonTextarea } from '@ionic/angular';
 import { EventDraft, Workspace } from '../workspace';
 
 const photoTypes = ['image/jpeg', 'image/png', 'image/webp'];
@@ -13,7 +13,7 @@ const photoSizeLimit = 1024 * 1024;
   templateUrl: './editor.page.html',
   imports: [
     IonGrid,
-    IonText,
+    IonLabel,
     IonImg,
     CurrencyPipe,
     DatePipe,

@@ -5,58 +5,58 @@
     <ion-grid class="ui-layout feature detail-banner">
       @if (item.photo) { <ion-img [src]="item.photo" alt=""></ion-img> }
       <ion-grid class="ui-layout">
-        <ion-text class="ui-p eyebrow">Published event</ion-text>
-        <ion-text class="ui-h1" role="heading" aria-level="1">{{ item.name }}</ion-text>
-        <ion-text class="ui-p">{{ item.category }}</ion-text>
+        <ion-label class="ui-p eyebrow">Published event</ion-label>
+        <ion-label class="ui-h1" role="heading" aria-level="1">{{ item.name }}</ion-label>
+        <ion-label class="ui-p">{{ item.category }}</ion-label>
       </ion-grid>
       <ion-button class="accent" [routerLink]="['/events', item.id, 'edit']">Edit event</ion-button>
     </ion-grid>
     <ion-grid class="ui-layout metrics" aria-label="Event totals">
       <ion-grid class="ui-layout metric">
-        <ion-text class="ui-p">Tickets sold</ion-text>
-        <ion-text class="ui-strong">{{ workspace.ticketsSold(item.id) }}</ion-text>
+        <ion-label class="ui-p">Tickets sold</ion-label>
+        <ion-label class="ui-strong">{{ workspace.ticketsSold(item.id) }}</ion-label>
       </ion-grid>
       <ion-grid class="ui-layout metric">
-        <ion-text class="ui-p">Capacity</ion-text>
-        <ion-text class="ui-strong">{{ item.capacity }}</ion-text>
+        <ion-label class="ui-p">Capacity</ion-label>
+        <ion-label class="ui-strong">{{ item.capacity }}</ion-label>
       </ion-grid>
       <ion-grid class="ui-layout metric">
-        <ion-text class="ui-p">Gross revenue</ion-text>
-        <ion-text class="ui-strong">{{ workspace.grossSales(item.id) | currency:'PHP':'₱':'1.0-2' }}</ion-text>
+        <ion-label class="ui-p">Gross revenue</ion-label>
+        <ion-label class="ui-strong">{{ workspace.grossSales(item.id) | currency:'PHP':'₱':'1.0-2' }}</ion-label>
       </ion-grid>
     </ion-grid>
     <ion-grid class="ui-layout dashboard-grid">
       <ion-grid class="ui-layout panel">
-        <ion-text class="ui-h2" role="heading" aria-level="2">Event overview</ion-text>
+        <ion-label class="ui-h2" role="heading" aria-level="2">Event overview</ion-label>
         <ion-grid class="ui-layout facts" role="list">
           <ion-grid class="ui-layout">
-            <ion-text class="ui-dt" role="term">Date</ion-text>
-            <ion-text class="ui-dd" role="definition">{{ item.date | date:'MMM d, y' }}</ion-text>
+            <ion-label class="ui-dt" role="term">Date</ion-label>
+            <ion-label class="ui-dd" role="definition">{{ item.date | date:'MMM d, y' }}</ion-label>
           </ion-grid>
           <ion-grid class="ui-layout">
-            <ion-text class="ui-dt" role="term">Time</ion-text>
-            <ion-text class="ui-dd" role="definition">{{ item.time }}</ion-text>
+            <ion-label class="ui-dt" role="term">Time</ion-label>
+            <ion-label class="ui-dd" role="definition">{{ item.time }}</ion-label>
           </ion-grid>
           <ion-grid class="ui-layout">
-            <ion-text class="ui-dt" role="term">Venue</ion-text>
-            <ion-text class="ui-dd" role="definition">{{ item.venue }}</ion-text>
+            <ion-label class="ui-dt" role="term">Venue</ion-label>
+            <ion-label class="ui-dd" role="definition">{{ item.venue }}</ion-label>
           </ion-grid>
           <ion-grid class="ui-layout">
-            <ion-text class="ui-dt" role="term">Ticket price</ion-text>
-            <ion-text class="ui-dd" role="definition">{{ item.price | currency:'PHP':'₱':'1.0-2' }}</ion-text>
+            <ion-label class="ui-dt" role="term">Ticket price</ion-label>
+            <ion-label class="ui-dd" role="definition">{{ item.price | currency:'PHP':'₱':'1.0-2' }}</ion-label>
           </ion-grid>
         </ion-grid>
-        <ion-text class="ui-h3" role="heading" aria-level="3">About the event</ion-text>
-        <ion-text class="ui-p">{{ item.description }}</ion-text>
+        <ion-label class="ui-h3" role="heading" aria-level="3">About the event</ion-label>
+        <ion-label class="ui-p">{{ item.description }}</ion-label>
       </ion-grid>
       <ion-grid class="ui-layout panel feature">
-        <ion-text class="ui-h2" role="heading" aria-level="2">Event bookings</ion-text>
-        <ion-text class="ui-p">Review ticket quantities and attendee details.</ion-text>
+        <ion-label class="ui-h2" role="heading" aria-level="2">Event bookings</ion-label>
+        <ion-label class="ui-p">Review ticket quantities and attendee details.</ion-label>
         <ion-button class="accent" routerLink="/bookings" [queryParams]="{ event: item.id }">View bookings</ion-button>
       </ion-grid>
     </ion-grid>
     } @else {
-    <ion-text class="ui-h1" role="heading" aria-level="1">Event not found</ion-text>
+    <ion-label class="ui-h1" role="heading" aria-level="1">Event not found</ion-label>
     }
   </ion-grid>
 </ion-content>

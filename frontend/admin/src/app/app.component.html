@@ -3,7 +3,7 @@
     <ion-grid class="ui-layout drawer">
       <ion-menu-toggle menu="admin-menu">
         <ion-button class="ui-link brand" routerLink="/home" fill="clear"
-          ><ion-text class="ui-span"><ion-icon [icon]="icons.ticket" aria-hidden="true"></ion-icon></ion-text>
+          ><ion-label class="ui-span"><ion-icon [icon]="icons.ticket" aria-hidden="true"></ion-icon></ion-label>
           EVENTIFY</ion-button
         >
       </ion-menu-toggle>
@@ -18,8 +18,8 @@
               ariaCurrentWhenActive="page"
               fill="clear"
             >
-              <ion-text class="menu-option"
-                ><ion-icon [icon]="link.icon" aria-hidden="true"></ion-icon> {{ link.label }}</ion-text
+              <ion-label class="menu-option"
+                ><ion-icon [icon]="link.icon" aria-hidden="true"></ion-icon> {{ link.label }}</ion-label
               >
             </ion-button>
           </ion-menu-toggle>
@@ -31,7 +31,7 @@
     <ion-toolbar>
       <ion-menu-button slot="start" menu="admin-menu" aria-label="Menu"></ion-menu-button>
       <ion-button class="ui-link brand" routerLink="/home" fill="clear"
-        ><ion-text class="ui-span"><ion-icon [icon]="icons.ticket" aria-hidden="true"></ion-icon></ion-text>
+        ><ion-label class="ui-span"><ion-icon [icon]="icons.ticket" aria-hidden="true"></ion-icon></ion-label>
         EVENTIFY</ion-button
       >
       @if (workspace.organizer()) {

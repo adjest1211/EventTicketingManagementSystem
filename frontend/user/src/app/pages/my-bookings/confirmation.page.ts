@@ -1,13 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IonGrid, IonText, IonButton, IonContent } from '@ionic/angular';
+import { IonGrid, IonLabel, IonButton, IonContent} from '@ionic/angular';
 import { events, Preview } from '../../services/preview';
 
 @Component({
   selector: 'app-confirmation',
   templateUrl: './confirmation.page.html',
-  imports: [IonGrid, IonText, DatePipe, RouterLink, IonButton, IonContent],
+  imports: [IonGrid, IonLabel, DatePipe, RouterLink, IonButton, IonContent],
 })
 export class ConfirmationPage {
   private readonly preview = inject(Preview);

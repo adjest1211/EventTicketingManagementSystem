@@ -2,27 +2,27 @@
   <ion-grid class="ui-layout page">
     <ion-grid class="ui-layout page-heading">
       <ion-grid class="ui-layout">
-        <ion-text class="ui-h1" role="heading" aria-level="1"
-          >{{ selected() ? selected()?.name + ' bookings' : 'All bookings' }}</ion-text
+        <ion-label class="ui-h1" role="heading" aria-level="1"
+          >{{ selected() ? selected()?.name + ' bookings' : 'All bookings' }}</ion-label
         >
-        <ion-text class="ui-p">Review attendee records and confirmed ticket totals.</ion-text>
+        <ion-label class="ui-p">Review attendee records and confirmed ticket totals.</ion-label>
       </ion-grid>
       @if (selected()) { <ion-button class="secondary" routerLink="/bookings">View all bookings</ion-button> }
     </ion-grid>
     <ion-grid class="ui-layout metrics booking-metrics" aria-label="Booking totals">
       <ion-grid class="ui-layout metric">
-        <ion-text class="ui-p">Confirmed tickets</ion-text>
-        <ion-text class="ui-strong">{{ workspace.ticketsSold(selected()?.id) }}</ion-text>
+        <ion-label class="ui-p">Confirmed tickets</ion-label>
+        <ion-label class="ui-strong">{{ workspace.ticketsSold(selected()?.id) }}</ion-label>
       </ion-grid>
       <ion-grid class="ui-layout metric">
-        <ion-text class="ui-p">Ticket revenue</ion-text>
-        <ion-text class="ui-strong">{{ workspace.grossSales(selected()?.id) | currency:'PHP':'₱':'1.0-2' }}</ion-text>
+        <ion-label class="ui-p">Ticket revenue</ion-label>
+        <ion-label class="ui-strong">{{ workspace.grossSales(selected()?.id) | currency:'PHP':'₱':'1.0-2' }}</ion-label>
       </ion-grid>
     </ion-grid>
     <ion-grid class="ui-layout panel">
-      <ion-text class="ui-h2" role="heading" aria-level="2">Recent bookings</ion-text>
+      <ion-label class="ui-h2" role="heading" aria-level="2">Recent bookings</ion-label>
       <app-booking-table [eventId]="selected()?.id" />
     </ion-grid>
-    <ion-text class="ui-p helper">Cancelled bookings are excluded from ticket and revenue totals.</ion-text>
+    <ion-label class="ui-p helper">Cancelled bookings are excluded from ticket and revenue totals.</ion-label>
   </ion-grid>
 </ion-content>

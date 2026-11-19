@@ -3,40 +3,40 @@
     <ion-button class="ui-link back-link" routerLink="/events" fill="clear">Back to all events</ion-button>
     @if (event(); as item) {
     <ion-grid class="ui-layout page-heading">
-      <ion-text class="ui-p eyebrow">{{ item.category }}</ion-text>
-      <ion-text class="ui-h1" role="heading" aria-level="1">{{ item.name }}</ion-text>
+      <ion-label class="ui-p eyebrow">{{ item.category }}</ion-label>
+      <ion-label class="ui-h1" role="heading" aria-level="1">{{ item.name }}</ion-label>
     </ion-grid>
     <ion-grid class="ui-layout detail-grid">
       <ion-grid class="ui-layout">
         <ion-grid class="ui-layout" [class]="'poster detail-poster poster-' + item.poster" aria-hidden="true">
-          <ion-text class="ui-span">{{ item.headline }}</ion-text>
+          <ion-label class="ui-span">{{ item.headline }}</ion-label>
         </ion-grid>
         <ion-grid class="ui-layout event-facts" role="list">
           <ion-grid class="ui-layout">
-            <ion-text class="ui-dt" role="term">When</ion-text>
-            <ion-text class="ui-dd" role="definition">{{ item.date | date:'EEE, MMM d, y · h:mm a':'+0800' }}</ion-text>
+            <ion-label class="ui-dt" role="term">When</ion-label>
+            <ion-label class="ui-dd" role="definition">{{ item.date | date:'EEE, MMM d, y · h:mm a':'+0800' }}</ion-label>
           </ion-grid>
           <ion-grid class="ui-layout">
-            <ion-text class="ui-dt" role="term">Where</ion-text>
-            <ion-text class="ui-dd" role="definition">{{ item.venue }}</ion-text>
+            <ion-label class="ui-dt" role="term">Where</ion-label>
+            <ion-label class="ui-dd" role="definition">{{ item.venue }}</ion-label>
           </ion-grid>
         </ion-grid>
-        <ion-text class="ui-h2" role="heading" aria-level="2">About the event</ion-text>
-        <ion-text class="ui-p">{{ item.description }}</ion-text>
+        <ion-label class="ui-h2" role="heading" aria-level="2">About the event</ion-label>
+        <ion-label class="ui-p">{{ item.description }}</ion-label>
       </ion-grid>
 
       <ion-grid class="ui-layout surface panel">
-        <ion-text class="ui-p eyebrow">Tickets</ion-text>
-        <ion-text class="ui-h2" role="heading" aria-level="2">General admission</ion-text>
-        <ion-text class="ui-p price">₱{{ item.price }}</ion-text>
-        <ion-text class="ui-p muted">Per person</ion-text>
-        <ion-text class="ui-separator" role="separator"></ion-text>
-        <ion-text class="ui-p">Includes entry to the event.</ion-text>
+        <ion-label class="ui-p eyebrow">Tickets</ion-label>
+        <ion-label class="ui-h2" role="heading" aria-level="2">General admission</ion-label>
+        <ion-label class="ui-p price">₱{{ item.price }}</ion-label>
+        <ion-label class="ui-p muted">Per person</ion-label>
+        <ion-label class="ui-separator" role="separator"></ion-label>
+        <ion-label class="ui-p">Includes entry to the event.</ion-label>
         <ion-button expand="block" [routerLink]="['/events', item.id, 'book']">Book tickets</ion-button>
       </ion-grid>
     </ion-grid>
     } @else {
-    <ion-text class="ui-h1" role="heading" aria-level="1">Event not found</ion-text>
+    <ion-label class="ui-h1" role="heading" aria-level="1">Event not found</ion-label>
     }
   </ion-grid>
 </ion-content>

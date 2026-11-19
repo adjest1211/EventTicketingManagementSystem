@@ -2,8 +2,8 @@
   <ion-grid class="ui-layout auth-layout">
     <ion-grid class="ui-layout auth-form">
       <ion-grid class="ui-layout page-heading">
-        <ion-text class="ui-h1" role="heading" aria-level="1">Create account</ion-text>
-        <ion-text class="ui-p">Try the booking flow with a preview profile.</ion-text>
+        <ion-label class="ui-h1" role="heading" aria-level="1">Create account</ion-label>
+        <ion-label class="ui-p">Try the booking flow with a preview profile.</ion-label>
       </ion-grid>
       <form #account="ngForm" (ngSubmit)="submit()">
         <ion-input
@@ -42,17 +42,17 @@
           >Create account</ion-button
         >
       </form>
-      <ion-text class="ui-p muted"
+      <ion-label class="ui-p muted"
         >Already have an account?
-        <ion-button class="ui-link" routerLink="/login" fill="clear">Log in</ion-button></ion-text
+        <ion-button class="ui-link" routerLink="/login" fill="clear">Log in</ion-button></ion-label
       >
     </ion-grid>
     <ion-grid class="ui-layout auth-poster auth-poster-comedy">
       <ion-img src="assets/signup-comedy.jpg" alt=""></ion-img>
-      <ion-text class="ui-strong"
-        >See you<ion-text class="ui-break" aria-hidden="true"></ion-text>at the comedy club.</ion-text
+      <ion-label class="ui-strong"
+        >See you<ion-label class="ui-break" aria-hidden="true"></ion-label>at the comedy club.</ion-label
       >
-      <ion-text class="ui-span">EVENTIFY</ion-text>
+      <ion-label class="ui-span">EVENTIFY</ion-label>
     </ion-grid>
   </ion-grid>
 </ion-content>
